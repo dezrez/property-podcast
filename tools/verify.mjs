@@ -175,12 +175,41 @@ async function main() {
   check('service worker cached the app shell', sw.shellCount >= 6,
     sw.shellCount + ' shell entries, caches: ' + sw.keys.join(', '));
 
+  // The Privacy / Terms / Support pages must exist, be reachable from the app,
+  // and carry the contact address.
+  const docPages = await evalJs(ws, sessionId, `(async () => {
+    const linked = [...document.querySelectorAll('.site-links a')].map(a => a.getAttribute('href'));
+    const out = { linked, pages: {} };
+    for (const p of ['privacy.html', 'terms.html', 'support.html']) {
+      try {
+        const res = await fetch(p);
+        const body = await res.text();
+        out.pages[p] = {
+          status: res.status,
+          hasContact: body.includes('podcast@dezrez.com'),
+          hasNav: body.includes('support.html') && body.includes('privacy.html'),
+          title: (body.match(/<title>([^<]*)<\\/title>/) || [])[1] || ''
+        };
+      } catch (e) { out.pages[p] = { status: 'ERR ' + e.message }; }
+    }
+    return JSON.stringify(out);
+  })()`);
+  const dp = JSON.parse(docPages);
+  const names = Object.keys(dp.pages);
+  const allOk = names.every(p => dp.pages[p].status === 200 &&
+    dp.pages[p].hasContact && dp.pages[p].hasNav);
+  check('privacy / terms / support pages load, cross-link and show the contact address',
+    allOk && dp.linked.length === 3,
+    names.map(p => p + '=' + dp.pages[p].status).join(', ') +
+    '; linked from app: ' + (dp.linked.join(', ') || 'NOT LINKED'));
+
   // The shell must be servable from the cache without touching the network.
   // (CDP network emulation does not apply to service-worker-initiated
   // requests, so assert against the cache directly rather than pretending
   // the socket is cut.)
   const shellServable = await evalJs(ws, sessionId, `(async () => {
-    const wanted = ['./index.html', './app.css', './app.js'];
+    const wanted = ['./index.html', './app.css', './app.js',
+                    './privacy.html', './terms.html', './support.html'];
     const found = [];
     for (const w of wanted) {
       const hit = await caches.match(new Request(new URL(w, location.href)));
@@ -190,7 +219,7 @@ async function main() {
   })()`);
   const servable = JSON.parse(shellServable);
   check('shell is servable from cache with no network',
-    servable.length === 3, servable.join(', ') || 'nothing cached');
+    servable.length === 6, servable.length + '/6: ' + (servable.join(', ') || 'nothing cached'));
 
   console.log('\nOFFLINE (feed unreachable)');
   // Block only the feed, and report the machine as offline, so the app's own

@@ -125,9 +125,15 @@ npm run verify
 
 Drives headless Edge over the DevTools protocol and asserts the feed parses,
 dedupe is correct, GUID sort is an exact reverse in both directions, search
-filters and highlights, artwork falls back cleanly, the service worker caches
-the shell, and the app still works with the feed unreachable. 13 checks; exits
-non-zero on failure.
+filters and highlights, artwork falls back cleanly, the Privacy/Terms/Support
+pages load and cross-link, the service worker caches the shell, and the app
+still works with the feed unreachable. 14 checks; exits non-zero on failure.
+
+It takes a URL, so it works against the deployed site too:
+
+```bash
+node tools/verify.mjs https://dezrez.github.io/property-podcast/
+```
 
 ---
 
@@ -207,7 +213,11 @@ you ever need to force an immediate update for everyone, bump `VERSION` in
 index.html                 markup and the player chrome
 app.css                    all styling; theme tokens at the top
 app.js                     feed parsing, dedupe, search, sort, player
-privacy.html               privacy policy — must be hosted for submission
+privacy.html               privacy policy
+terms.html                 terms of use
+support.html               help, troubleshooting and contact details
+pages.css                  shared styling for the three document pages
+pages.js                   keeps those pages on the app's chosen theme
 manifest.webmanifest       PWA/Store metadata
 sw.js                      offline caching
 icons/                     generated — do not edit by hand
