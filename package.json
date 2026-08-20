@@ -1,0 +1,13 @@
+{
+  "name": "ai-property-podcast-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Microsoft Store app for the AI & UK Property: The Daily Briefing podcast feed",
+  "scripts": {
+    "start": "python -m http.server 5183",
+    "icons": "python tools/make_icons.py",
+    "shoot": "node tools/shoot.mjs http://localhost:5183/",
+    "verify": "node tools/verify.mjs http://localhost:5183/"
+  },
+  "license": "UNLICENSED"
+}
