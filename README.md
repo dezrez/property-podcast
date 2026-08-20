@@ -7,7 +7,7 @@ It runs as a website and installs as a desktop app from the same files.
 Zero dependencies, zero build step — plain HTML, CSS and JavaScript, 606 KB
 total. Deploy it by copying the directory onto any static host.
 
-See [Deploying to GitHub Pages](#deploying-to-github-pages).
+See [Deploying](#deploying).
 
 ---
 
@@ -156,26 +156,55 @@ filters and highlights, artwork falls back cleanly, the Privacy/Terms/Support
 pages load and cross-link, the service worker caches the shell, and the app
 still works with the feed unreachable. 14 checks; exits non-zero on failure.
 
-It takes a URL, so it works against the deployed site too:
+It takes a URL, so it works against either deployed site too:
 
 ```bash
-node tools/verify.mjs https://dezrez.github.io/property-podcast/
+node tools/verify.mjs https://blue-mushroom-0206a3d10.7.azurestaticapps.net/
 ```
 
 ---
 
-## Deploying to GitHub Pages
+## Deploying
+
+The site is published to two places, both from `main`, on every push:
+
+| Host | URL |
+|---|---|
+| Azure Static Web Apps | <https://blue-mushroom-0206a3d10.7.azurestaticapps.net> |
+| GitHub Pages | <https://dezrez.github.io/property-podcast/> |
 
 Everything here is static — there is nothing to compile, and no server-side
-anything. Pages just serves the files.
+anything. Both hosts just serve the files.
 
-The app works identically at a domain root or inside a subdirectory: every path
+### Azure Static Web Apps
+
+Deployed by `.github/workflows/azure-static-web-apps-*.yml`, which Azure adds
+when you link the repository.
+
+Two things in that workflow needed changing from the generated defaults:
+
+- **`skip_app_build: true`.** Left alone, the action hands the repo to Oryx,
+  which sees `package.json`, assumes a Node build, and looks for build output
+  that this site never produces. Skipping the build uploads the repo as-is.
+  `output_location` is `""` for the same reason.
+- **[`staticwebapp.config.json`](staticwebapp.config.json).** Static Web Apps
+  does not serve `.webmanifest` as `application/manifest+json` by default, and
+  a manifest with the wrong content type is ignored by browsers — the app would
+  deploy fine and silently stop being installable. The config also sets
+  `no-cache` on `sw.js` so a service worker update is never pinned by the CDN.
+
+The default hostname is not derivable from the workflow or secret name; read it
+from the Static Web App resource in the Azure portal (Overview → URL).
+
+### GitHub Pages
+
+The app works identically at a domain root or inside a subdirectory — which is
+why the same files serve correctly from the Azure root and the Pages subpath.
+Every path
 in the HTML, manifest and service worker is relative, and `verify.mjs` passes
-13/13 in both shapes. So you can put it wherever is convenient.
+14/14 in both shapes. So you can put it wherever is convenient.
 
-### This repository
-
-The app lives at the root of
+It lives at the root of
 [`dezrez/property-podcast`](https://github.com/dezrez/property-podcast) on the
 `main` branch, and publishes to:
 
