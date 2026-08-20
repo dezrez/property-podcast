@@ -140,38 +140,36 @@ The app works identically at a domain root or inside a subdirectory: every path
 in the HTML, manifest and service worker is relative, and `verify.mjs` passes
 13/13 in both shapes. So you can put it wherever is convenient.
 
-### Option A — its own repository
+### This repository
 
-Gives you a clean URL and full control.
+The app lives at the root of
+[`dezrez/property-podcast`](https://github.com/dezrez/property-podcast) on the
+`main` branch, and publishes to:
+
+**<https://dezrez.github.io/property-podcast/>**
+
+To enable Pages the first time: **Settings → Pages → Build and deployment →
+Source: _Deploy from a branch_ → Branch: `main`, folder `/ (root)` → Save.**
+The first build takes a minute or two; after that, every push to `main` goes
+live within seconds.
+
+Deploying a change is just:
 
 ```bash
-git remote add origin https://github.com/<you>/<repo>.git
-git push -u origin main
+git push
 ```
 
-Then in the repo on GitHub: **Settings → Pages → Build and deployment → Source:
-Deploy from a branch → Branch: `main` / `/ (root)` → Save.**
+### Notes on the Pages setup
 
-Your URL becomes `https://<you>.github.io/<repo>/`.
-
-### Option B — alongside the feed
-
-If you have write access to the repository behind
-`richiep540.github.io/ai-property-podcast`, copy these files into an `app/`
-folder there and commit. Pages already serves that repo, so no settings change
-is needed and the app appears at
-`https://richiep540.github.io/ai-property-podcast/app/`.
-
-The advantage is same-origin with the feed. It makes no practical difference —
-the feed sends `Access-Control-Allow-Origin: *`, so cross-origin fetching works
-regardless — but it keeps the podcast and its player together.
-
-### After the first deploy
-
-- The first build takes a minute or two; after that pushes go live in seconds.
-- `.nojekyll` is committed, which stops Pages running the files through Jekyll.
-- Pages is HTTPS by default, which is required for the service worker and for
-  install-as-app to work at all.
+- `.nojekyll` is committed, so Pages serves the files verbatim instead of
+  running them through Jekyll.
+- Pages is HTTPS by default, which the service worker and install-as-app both
+  require — neither works over plain HTTP.
+- The repo is public, which is what lets Pages work on a free plan. Private
+  repos need GitHub Enterprise Cloud for Pages.
+- `tools/` and `screenshots/` get published too. They are harmless, but if you
+  would rather not serve them, move the app files into a `docs/` folder and
+  switch the Pages source to `/docs`.
 
 ### Installing it as a desktop app
 
