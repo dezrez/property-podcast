@@ -11,7 +11,9 @@ import os
 import struct
 import zlib
 
-OUT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "icons")
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUT_DIR = os.path.join(ROOT, "icons")
+MARKETING_DIR = os.path.join(ROOT, "marketing")
 
 # Sizes the manifest, the browser and PWABuilder/MSIX want.
 SIZES = {
@@ -179,6 +181,17 @@ def main():
     rgba = render(512, maskable=True)
     write_png(os.path.join(OUT_DIR, "icon-maskable-512.png"), 512, rgba)
     print("wrote icon-maskable-512.png 512")
+
+    # Partner/ISV listing logos. 300x300 sits inside the usual 216-350 square
+    # range. Two variants: the app's own rounded mark (transparent corners),
+    # and a full-bleed square for forms that dislike transparency.
+    os.makedirs(MARKETING_DIR, exist_ok=True)
+    write_png(os.path.join(MARKETING_DIR, "logo-300.png"), 300,
+              render(300, maskable=False))
+    print("wrote marketing/logo-300.png 300")
+    write_png(os.path.join(MARKETING_DIR, "logo-300-square.png"), 300,
+              render(300, maskable=True))
+    print("wrote marketing/logo-300-square.png 300")
 
 
 if __name__ == "__main__":

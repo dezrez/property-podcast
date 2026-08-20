@@ -115,7 +115,34 @@ Regenerates every PNG in `icons/` from the vector description in
 npm run shoot
 ```
 
-Recaptures the manifest screenshots in `screenshots/` (needs the server running).
+Recaptures the screenshots in `screenshots/` and `marketing/`. Takes a URL, so
+it can shoot the deployed site rather than a local one:
+
+```bash
+node tools/shoot.mjs https://dezrez.github.io/property-podcast/
+```
+
+```bash
+npm run pdf
+```
+
+Renders `marketing/onepager.html` to a one-page A4 PDF via headless Edge, with
+vector text and both images embedded. Edit the HTML, not the PDF.
+
+### Partner / ISV listing assets
+
+`marketing/` holds everything a partner or store listing tends to ask for:
+
+| File | Spec it satisfies |
+|---|---|
+| `AI-and-UK-Property-The-Daily-Briefing.pdf` | Marketing PDF — 1 page, A4 |
+| `logo-300.png` | Square logo, 300×300 (within a 216–350 requirement) |
+| `logo-300-square.png` | Same, full-bleed for forms that reject transparency |
+| `screenshot-1280x720.png` | Screenshot at exactly 1280×720 |
+| `screenshot-search-1280x720.png` | Second 1280×720 screenshot, search in use |
+
+Regenerate the logos with `npm run icons`, the screenshots with `npm run shoot`,
+and the PDF with `npm run pdf`.
 
 ### Verifying
 

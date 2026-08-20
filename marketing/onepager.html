@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en-gb">
+<head>
+<meta charset="utf-8">
+<title>AI &amp; UK Property: The Daily Briefing</title>
+<style>
+  @page { size: A4; margin: 0; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #12161c;
+    --dim: #4a5462;
+    --faint: #7c8695;
+    --line: #e2e6ec;
+    --indigo: #5b5bf6;
+    --teal: #0ea5b5;
+  }
+
+  html, body {
+    width: 210mm;
+    height: 297mm;
+    background: #fff;
+    color: var(--ink);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 210mm; height: 297mm;
+    padding: 14mm 15mm 12mm;
+    display: flex; flex-direction: column;
+  }
+
+  /* ---- header ---- */
+  header { display: flex; align-items: center; gap: 6mm; }
+  header img { width: 20mm; height: 20mm; border-radius: 4.4mm; }
+  .titles h1 { font-size: 21pt; letter-spacing: -.5pt; line-height: 1.1; font-weight: 700; }
+  .titles .sub {
+    font-size: 11.5pt; color: var(--dim); margin-top: 1.2mm; font-weight: 500;
+  }
+  .rule {
+    height: 1.1mm; margin: 6mm 0 5mm; border-radius: 1mm;
+    background: linear-gradient(90deg, var(--indigo), var(--teal));
+  }
+
+  .lede { font-size: 10.8pt; line-height: 1.55; color: var(--dim); }
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  /* ---- screenshot ---- */
+  figure {
+    margin: 6mm 0 0;
+    border: 0.35mm solid var(--line);
+    border-radius: 2.2mm;
+    overflow: hidden;
+    box-shadow: 0 1mm 3mm rgba(16, 24, 40, .10);
+    line-height: 0;
+  }
+  figure img { width: 100%; display: block; }
+
+  /* ---- features ---- */
+  h2 {
+    font-size: 12pt; font-weight: 700; letter-spacing: -.2pt;
+    margin: 7mm 0 3.5mm;
+  }
+  .grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4mm 9mm;
+  }
+  .feat { display: flex; gap: 3mm; }
+  .dot {
+    flex: none; width: 2.6mm; height: 2.6mm; border-radius: 50%;
+    margin-top: 1.5mm;
+    background: linear-gradient(140deg, var(--indigo), var(--teal));
+  }
+  .feat h3 { font-size: 10pt; font-weight: 650; margin-bottom: .8mm; }
+  .feat p { font-size: 9.2pt; line-height: 1.45; color: var(--dim); }
+
+  /* ---- audience ---- */
+  .audience {
+    margin-top: 7mm; padding: 4.5mm 5mm;
+    border-left: 1mm solid var(--indigo);
+    background: #f7f8fb; border-radius: 0 2mm 2mm 0;
+    font-size: 9.8pt; line-height: 1.5; color: var(--dim);
+  }
+  .audience strong { color: var(--ink); font-weight: 600; }
+
+  /* ---- footer ---- */
+  footer {
+    margin-top: auto; padding-top: 5mm; border-top: 0.35mm solid var(--line);
+    display: flex; justify-content: space-between; align-items: flex-end; gap: 6mm;
+  }
+  .foot-block .label {
+    font-size: 7pt; text-transform: uppercase; letter-spacing: .7pt;
+    color: var(--faint); font-weight: 600; margin-bottom: 1mm;
+  }
+  .foot-block .value { font-size: 9.6pt; color: var(--ink); font-weight: 600; }
+  .foot-block .value a { color: var(--indigo); text-decoration: none; }
+  .publisher { text-align: right; font-size: 8.6pt; color: var(--faint); line-height: 1.45; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <img src="logo-300.png" alt="">
+    <div class="titles">
+      <h1>AI &amp; UK Property</h1>
+      <div class="sub">The Daily Briefing — a listening app for the daily podcast</div>
+    </div>
+  </header>
+
+  <div class="rule"></div>
+
+  <p class="lede">
+    A free app for following <strong>Dezrez's daily podcast on how AI is changing UK estate
+    agency and conveyancing</strong>. Each episode is a short two-host discussion drawn from
+    that day's industry news. The app puts the whole series in one place — searchable,
+    sortable, and ready to pick up wherever you left off.
+  </p>
+
+  <figure>
+    <img src="screenshot-1280x720.png" alt="The app showing the episode archive with an episode playing">
+  </figure>
+
+  <h2>What it does</h2>
+  <div class="grid">
+
+    <div class="feat">
+      <span class="dot"></span>
+      <div>
+        <h3>The whole archive, always current</h3>
+        <p>Opens on every episode published to date, newest first, refreshed each time you open it.</p>
+      </div>
+    </div>
+
+    <div class="feat">
+      <span class="dot"></span>
+      <div>
+        <h3>Search as you type</h3>
+        <p>Filter the back catalogue instantly by title, description or date, with matches highlighted.</p>
+      </div>
+    </div>
+
+    <div class="feat">
+      <span class="dot"></span>
+      <div>
+        <h3>Order it your way</h3>
+        <p>Sort by episode or by date, oldest or newest first, whichever suits how you catch up.</p>
+      </div>
+    </div>
+
+    <div class="feat">
+      <span class="dot"></span>
+      <div>
+        <h3>Picks up where you stopped</h3>
+        <p>Remembers your position in every episode and marks off the ones you have finished.</p>
+      </div>
+    </div>
+
+    <div class="feat">
+      <span class="dot"></span>
+      <div>
+        <h3>Listen at your own pace</h3>
+        <p>Adjust playback speed, skip back and forward, or download an episode to keep.</p>
+      </div>
+    </div>
+
+    <div class="feat">
+      <span class="dot"></span>
+      <div>
+        <h3>Fits around a working day</h3>
+        <p>Keeps working without a connection, installs to the desktop, and answers the usual media keys.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="audience">
+    <strong>Who it is for.</strong> Estate agents, conveyancers and the teams around them —
+    anyone working in UK residential property who wants to keep up with how AI is changing
+    their work, in the gaps of a busy day. There is nothing to sign up for and nothing to pay.
+  </div>
+
+  <footer>
+    <div class="foot-block">
+      <div class="label">Available at</div>
+      <div class="value"><a href="https://dezrez.github.io/property-podcast/">dezrez.github.io/property-podcast</a></div>
+    </div>
+    <div class="foot-block">
+      <div class="label">Contact</div>
+      <div class="value"><a href="mailto:podcast@dezrez.com">podcast@dezrez.com</a></div>
+    </div>
+    <div class="publisher">
+      Published by Dezrez<br>
+      AI &amp; UK Property: The Daily Briefing
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
