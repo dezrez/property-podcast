@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json.schemastore.org/staticwebapp.config.json",
+
+  "mimeTypes": {
+    ".webmanifest": "application/manifest+json",
+    ".json": "application/json",
+    ".mjs": "text/javascript",
+    ".xml": "application/xml",
+    ".pdf": "application/pdf"
+  },
+
+  "routes": [
+    {
+      "route": "/sw.js",
+      "headers": {
+        "cache-control": "no-cache, no-store, must-revalidate",
+        "service-worker-allowed": "/"
+      }
+    },
+    {
+      "route": "/manifest.webmanifest",
+      "headers": { "cache-control": "public, max-age=300" }
+    },
+    {
+      "route": "/icons/*",
+      "headers": { "cache-control": "public, max-age=604800" }
+    }
+  ],
+
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": [
+      "/icons/*",
+      "/screenshots/*",
+      "/marketing/*",
+      "/tools/*",
+      "/*.{css,js,mjs,json,webmanifest,png,jpg,jpeg,svg,ico,xml,pdf,txt}"
+    ]
+  },
+
+  "responseOverrides": {
+    "404": { "rewrite": "/index.html" }
+  }
+}
