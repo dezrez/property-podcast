@@ -264,9 +264,26 @@ Test purchases arrive with `isTest: true`, which the landing page displays.
 | `502 token_rejected` | The fulfillment client secret is wrong or expired. |
 | `500 processing_failed` | Upstream or storage failure. Microsoft will retry; the event was not claimed, so the retry is processed properly. |
 | `200 {"status":"duplicate"}` | Normal. Microsoft redelivered something already processed. |
+| `500 {"error":"unhandled","kind":"..."}` | A bug rather than a configuration problem. `kind` is the error's constructor name; the full detail is in Application Insights. |
+| A **bodyless** 500 | Should no longer be possible. It means something threw outside every handler — historically, a logging call throwing from inside a catch block. Check the Functions host log directly. |
 
 Every log line is structured JSON with a `message` like
 `marketplace.webhook.processed`, so Application Insights can be filtered by it.
+
+### Reproducing a failure locally
+
+Static Web Apps managed Functions log nothing queryable without Application
+Insights, so an unexplained 500 is best reproduced against the real host rather
+than guessed at:
+
+```bash
+cd api
+func start
+```
+
+Then call the endpoint on `http://localhost:7071`. The host prints the actual
+exception and stack, which HTTP status codes alone will not give you. This is
+how the detached-logger bug in `safeLog` was found.
 
 ---
 
