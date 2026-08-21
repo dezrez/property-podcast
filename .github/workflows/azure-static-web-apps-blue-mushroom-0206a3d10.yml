@@ -29,14 +29,16 @@ jobs:
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
           app_location: "/" # App source code path
-          api_location: "" # Api source code path - optional
+          api_location: "api" # Azure Functions app serving /api/marketplace/*
           output_location: "" # Built app content directory - optional
           # This site is plain HTML/CSS/JS with no build step. Left to itself the
           # action hands the repo to Oryx, which sees package.json, assumes a Node
           # build and looks for output that never gets produced. Skipping the build
           # uploads app_location as-is, which is what we actually want.
           skip_app_build: true
-          skip_api_build: true
+          # The API does need building: its dependencies must be installed.
+          # Only the static site is a no-build artefact.
+          skip_api_build: false
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:

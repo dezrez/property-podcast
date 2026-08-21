@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en-gb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marketplace subscription — AI &amp; UK Property</title>
+<meta name="description" content="Set up your Microsoft Marketplace subscription to AI &amp; UK Property: The Daily Briefing.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="icons/icon-32.png" sizes="32x32" type="image/png">
+<link rel="stylesheet" href="pages.css">
+<link rel="stylesheet" href="marketplace.css">
+<script src="pages.js"></script>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <img src="icons/icon-192.png" alt="">
+    <span class="masthead-title"><a href="index.html">AI &amp; UK Property: The Daily Briefing</a></span>
+    <nav class="doc-nav">
+      <a href="index.html">App</a>
+      <a href="support.html">Support</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>Microsoft Marketplace subscription</h1>
+  <p class="updated" id="signedInAs" hidden></p>
+
+  <!-- One panel is shown at a time; the rest stay hidden. -->
+  <div class="panel" id="panel-loading" role="status" aria-live="polite">
+    <span class="spinner" aria-hidden="true"></span>
+    <div>
+      <div class="panel-title">Checking your subscription…</div>
+      <p class="panel-body">This only takes a moment.</p>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-signin" hidden>
+    <span class="badge badge-info" aria-hidden="true">1</span>
+    <div>
+      <div class="panel-title">Sign in to finish setting up</div>
+      <p class="panel-body">
+        Sign in with the Microsoft account you used to buy this subscription, so we
+        can confirm the purchase.
+      </p>
+      <button type="button" class="btn" id="signInBtn">Sign in with Microsoft</button>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-resolving" hidden role="status" aria-live="polite">
+    <span class="spinner" aria-hidden="true"></span>
+    <div>
+      <div class="panel-title">Confirming your purchase with Microsoft…</div>
+      <p class="panel-body">Please don't close this page.</p>
+    </div>
+  </div>
+
+  <div class="panel panel-ok" id="panel-active" hidden>
+    <span class="badge badge-ok" aria-hidden="true">&#10003;</span>
+    <div>
+      <div class="panel-title">Microsoft Marketplace subscription active</div>
+      <p class="panel-body">
+        Your subscription is set up and ready. Nothing else is needed.
+      </p>
+      <dl class="facts" id="subscriptionFacts"></dl>
+      <a class="btn" href="index.html">Open the podcast app</a>
+    </div>
+  </div>
+
+  <div class="panel panel-warn" id="panel-inactive" hidden>
+    <span class="badge badge-warn" aria-hidden="true">!</span>
+    <div>
+      <div class="panel-title" id="inactiveTitle">Subscription found, but not active</div>
+      <p class="panel-body" id="inactiveBody"></p>
+      <dl class="facts" id="inactiveFacts"></dl>
+    </div>
+  </div>
+
+  <div class="panel panel-warn" id="panel-no-token" hidden>
+    <span class="badge badge-warn" aria-hidden="true">?</span>
+    <div>
+      <div class="panel-title">No Marketplace purchase to set up</div>
+      <p class="panel-body">
+        This page finishes setting up a subscription bought through Microsoft
+        Marketplace, and needs to be opened from there.
+      </p>
+      <p class="panel-body">
+        To get here properly, open the subscription in the
+        <strong>Microsoft 365 admin centre</strong> or the
+        <strong>Azure portal</strong> and choose <strong>Configure account</strong>
+        or <strong>Manage account</strong>.
+      </p>
+      <p class="panel-body">
+        The podcast app itself is free and needs no subscription —
+        <a href="index.html">open it here</a>.
+      </p>
+    </div>
+  </div>
+
+  <div class="panel panel-error" id="panel-error" hidden>
+    <span class="badge badge-error" aria-hidden="true">&times;</span>
+    <div>
+      <div class="panel-title" id="errorTitle">We couldn't confirm this purchase</div>
+      <p class="panel-body" id="errorBody"></p>
+      <p class="panel-body diag">Reference: <code id="errorCode">unknown</code></p>
+      <button type="button" class="btn" id="retryBtn">Try again</button>
+      <a class="btn btn-quiet" href="support.html">Contact support</a>
+    </div>
+  </div>
+
+  <footer class="doc-footer">
+    <span>AI &amp; UK Property: The Daily Briefing</span>
+    <span>
+      <a href="privacy.html">Privacy Policy</a> ·
+      <a href="terms.html">Terms of Use</a> ·
+      <a href="support.html">Support</a>
+    </span>
+  </footer>
+</main>
+
+<script src="vendor/msal-browser-5.19.0.min.js"></script>
+<script src="marketplace.js"></script>
+</body>
+</html>

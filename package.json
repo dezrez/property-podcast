@@ -8,6 +8,9 @@
     "icons": "python tools/make_icons.py",
     "shoot": "node tools/shoot.mjs http://localhost:5183/",
     "pdf": "node tools/make_pdf.mjs",
+    "test": "npm run test:api && npm run test:marketplace",
+    "test:api": "npm --prefix api test",
+    "test:marketplace": "node tools/verify-marketplace.mjs",
     "verify": "node tools/verify.mjs http://localhost:5183/"
   },
   "license": "UNLICENSED"
