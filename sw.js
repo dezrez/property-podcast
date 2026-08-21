@@ -53,6 +53,19 @@ self.addEventListener('fetch', event => {
   // browser's own media pipeline, not to us.
   if (url.pathname.endsWith('.mp3') || req.destination === 'audio') return;
 
+  // Never intercept the Marketplace onboarding page or its API. Serving a
+  // cached /marketplace would show a stale subscription state, and the
+  // stale-while-revalidate fallback below would answer an API call with the
+  // podcast app's HTML. Both must always go straight to the network.
+  if (
+    url.origin === self.location.origin &&
+    (url.pathname === '/marketplace' ||
+      url.pathname === '/marketplace.html' ||
+      url.pathname.startsWith('/api/'))
+  ) {
+    return;
+  }
+
   // Feed: network first, fall back to the last good copy.
   if (url.hostname === FEED_HOST && url.pathname.endsWith('feed.xml')) {
     event.respondWith(

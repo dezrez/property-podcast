@@ -156,6 +156,15 @@ filters and highlights, artwork falls back cleanly, the Privacy/Terms/Support
 pages load and cross-link, the service worker caches the shell, and the app
 still works with the feed unreachable. 14 checks; exits non-zero on failure.
 
+```bash
+npm test
+```
+
+Runs the Marketplace suites: `npm run test:api` (73 unit tests over the
+fulfilment client, webhook JWT validation, handlers and storage, all mocked) and
+`npm run test:marketplace` (16 checks driving the real `/marketplace` page in
+headless Edge against a stubbed API). Neither touches a live Marketplace.
+
 It takes a URL, so it works against either deployed site too:
 
 ```bash
@@ -164,17 +173,37 @@ node tools/verify.mjs https://blue-mushroom-0206a3d10.7.azurestaticapps.net/
 
 ---
 
+## Microsoft Marketplace
+
+The app is also a transactable Microsoft Marketplace SaaS offer. The onboarding
+page lives at `/marketplace` and the fulfilment endpoints under
+`/api/marketplace/*`, backed by an Azure Functions app in `api/`.
+
+The plan uses **auto activation**, which changes the protocol materially:
+Microsoft activates at purchase, so there is no Activate call and the `Subscribe`
+webhook — not the landing page — is the authoritative source of a new
+subscription.
+
+Setup, environment variables, Partner Center mappings and troubleshooting are in
+**[docs/marketplace.md](docs/marketplace.md)**. The podcast app itself stays free
+and public; no feature is locked behind a subscription.
+
+---
+
 ## Deploying
 
-The site is published to two places, both from `main`, on every push:
+**Azure Static Web Apps is the home of this app:**
 
-| Host | URL |
-|---|---|
-| Azure Static Web Apps | <https://blue-mushroom-0206a3d10.7.azurestaticapps.net> |
-| GitHub Pages | <https://dezrez.github.io/property-podcast/> |
+<https://blue-mushroom-0206a3d10.7.azurestaticapps.net>
 
-Everything here is static — there is nothing to compile, and no server-side
-anything. Both hosts just serve the files.
+The static site needs no build, but the Marketplace API in `api/` does — the
+workflow reflects that (`skip_app_build: true`, `skip_api_build: false`).
+
+> **GitHub Pages should be turned off.** Pages has no Azure Functions, so
+> `/marketplace` would load there while every `/api/marketplace/*` call returned
+> 404 — a publicly reachable, half-working copy of a transactable offer. Turn it
+> off under **Settings → Pages → Source: None**. This cannot be done from the
+> repository; it is a setting.
 
 ### Azure Static Web Apps
 
@@ -272,10 +301,15 @@ app.js                     feed parsing, dedupe, search, sort, player
 privacy.html               privacy policy
 terms.html                 terms of use
 support.html               help, troubleshooting and contact details
-pages.css                  shared styling for the three document pages
+marketplace.html/.js/.css  Microsoft Marketplace onboarding page (/marketplace)
+pages.css                  shared styling for the document pages
 pages.js                   keeps those pages on the app's chosen theme
 manifest.webmanifest       PWA/Store metadata
 sw.js                      offline caching
+staticwebapp.config.json   routing, MIME types and headers for Azure
+vendor/                    pinned third-party bundles (MSAL browser)
+api/                       Azure Functions - Marketplace fulfilment endpoints
+docs/marketplace.md        Marketplace integration and Azure configuration
 icons/                     generated — do not edit by hand
 screenshots/               generated — manifest and Store listing
 tools/make_icons.py        icon generator (pure Python, no deps)

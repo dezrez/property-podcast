@@ -1,0 +1,4 @@
+test/
+local.settings.json
+local.settings.json.example
+*.md

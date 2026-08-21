@@ -1,6 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/staticwebapp.config.json",
 
+  "platform": {
+    "apiRuntime": "node:20"
+  },
+
   "mimeTypes": {
     ".webmanifest": "application/manifest+json",
     ".json": "application/json",
@@ -9,7 +13,25 @@
     ".pdf": "application/pdf"
   },
 
+  "globalHeaders": {
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "X-Frame-Options": "DENY"
+  },
+
   "routes": [
+    {
+      "route": "/marketplace",
+      "rewrite": "/marketplace.html",
+      "headers": {
+        "cache-control": "no-store",
+        "Referrer-Policy": "no-referrer"
+      }
+    },
+    {
+      "route": "/api/*",
+      "headers": { "cache-control": "no-store" }
+    },
     {
       "route": "/sw.js",
       "headers": {
@@ -30,9 +52,12 @@
   "navigationFallback": {
     "rewrite": "/index.html",
     "exclude": [
+      "/api/*",
+      "/marketplace",
       "/icons/*",
       "/screenshots/*",
       "/marketing/*",
+      "/vendor/*",
       "/tools/*",
       "/*.{css,js,mjs,json,webmanifest,png,jpg,jpeg,svg,ico,xml,pdf,txt}"
     ]
