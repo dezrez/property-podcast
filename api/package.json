@@ -1,0 +1,20 @@
+{
+  "name": "property-podcast-marketplace-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Microsoft Marketplace SaaS fulfilment endpoints for the Property Podcast app",
+  "type": "module",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\""
+  },
+  "dependencies": {
+    "@azure/data-tables": "^13.3.2",
+    "@azure/functions": "^4.16.2",
+    "jose": "^6.2.9"
+  },
+  "license": "UNLICENSED"
+}

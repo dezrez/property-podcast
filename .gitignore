@@ -4,3 +4,6 @@ __pycache__/
 *.log
 Thumbs.db
 .DS_Store
+
+# Azure Functions local development — may contain the fulfillment secret.
+api/local.settings.json
