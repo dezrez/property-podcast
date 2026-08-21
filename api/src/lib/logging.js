@@ -88,9 +88,33 @@ export class MarketplaceError extends Error {
 /**
  * Writes a structured line through the Functions context logger with redaction
  * applied. `context` is the Azure Functions invocation context.
+ *
+ * Two things here are load-bearing:
+ *
+ * 1. The logger must be invoked as a *method*. `InvocationContext.error` and
+ *    friends read private class fields, so a detached reference
+ *    (`const log = context.error; log(...)`) throws
+ *    "Cannot read private member from an object whose class did not declare
+ *    it". Because this helper is called from inside catch blocks, such a throw
+ *    escapes the catch and the Functions host answers with a bodyless 500.
+ *
+ * 2. Logging must never be able to fail a request. Everything is wrapped, so a
+ *    broken context or an unserialisable field degrades to silence rather than
+ *    taking down the endpoint.
  */
 export function safeLog(context, level, message, fields = {}) {
-  const line = { message, ...redact(fields) };
-  const logger = context && typeof context[level] === 'function' ? context[level] : null;
-  if (logger) logger(JSON.stringify(line));
+  let line;
+  try {
+    line = JSON.stringify({ message, ...redact(fields) });
+  } catch {
+    line = JSON.stringify({ message, note: 'fields_unserialisable' });
+  }
+
+  try {
+    if (context && typeof context[level] === 'function') {
+      context[level](line);
+    }
+  } catch {
+    /* a logging failure must never surface as a request failure */
+  }
 }
